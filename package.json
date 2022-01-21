@@ -1,7 +1,7 @@
 {
   "name": "svg-graph",
   "version": "1.0.0",
-  "description": "",
+  "description": "A physics-based directed graph visualization with [SVG](https://developer.mozilla.org/en-US/docs/Web/SVG).",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
