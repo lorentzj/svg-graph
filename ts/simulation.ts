@@ -107,14 +107,11 @@ export class PhysicsSimulation {
     }
 
     tickPhysics(dt: number, bounds: DOMRect) {
-        const nodeRepelFConstant = 20000;
-        const repelExp = 2;
+        const nodeRepelFConstant = 200000;
 
-        const nodeAttractFConstant = 2000;
+        const nodeAttractFConstant = 0.05;
         const edgeLength = this.params.edgeLength;
         const minAttractDistance = 5;
-        const attractExp = 1;
-        const closeDampen = 0.1;
 
         const dampen  = 0.01;
 
@@ -130,7 +127,7 @@ export class PhysicsSimulation {
                     const ndy = dy/d;
     
                     // each node is repelled from all others
-                    const repelF = other.mass*nodeRepelFConstant/Math.abs((Math.pow(d, repelExp)));
+                    const repelF = other.mass*nodeRepelFConstant/Math.abs((Math.pow(d, 2)));
                     fx += repelF*ndx;
                     fy += repelF*ndy;    
     
@@ -145,15 +142,11 @@ export class PhysicsSimulation {
                         //...and attracted to those it shares an edge with
 
                         if(Math.abs(d - edgeLength) > minAttractDistance) {
-                            const attractF = other.mass*nodeAttractFConstant/Math.abs(Math.pow(d, attractExp))
+                            const attractF = other.mass*nodeAttractFConstant*Math.abs(d - edgeLength)
                                 * (d > edgeLength ? -1 : 1);
-    
+
                             fx += attractF*ndx;
                             fy += attractF*ndy;
-                        } else {
-                            // if we're close to the correct edge length, dampen more to reduce vibration
-                            node.vx *= (1 - closeDampen);
-                            node.vy *= (1 - closeDampen);
                         }
                     }
                 }
