@@ -90,14 +90,20 @@ export abstract class PhysicsEdge {
     abstract to: PhysicsNode;
 }
 
+export type PhysicsParams = {    
+    edgeLength: number
+}
+
 export class PhysicsSimulation {
     nodes: PhysicsNode[];
     target: SVGElement;
+    params: PhysicsParams;
 
-    constructor(nodes: PhysicsNode[], target: SVGElement) {
+    constructor(nodes: PhysicsNode[], params: PhysicsParams, target: SVGElement) {
         this.target = target;
 
         this.nodes = nodes;
+        this.params = params;
     }
 
     tickPhysics(dt: number, bounds: DOMRect) {
@@ -105,7 +111,7 @@ export class PhysicsSimulation {
         const repelExp = 2;
 
         const nodeAttractFConstant = 2000;
-        const edgeDistance = 200;
+        const edgeLength = this.params.edgeLength;
         const minAttractDistance = 5;
         const attractExp = 1;
         const closeDampen = 0.1;
@@ -138,9 +144,9 @@ export class PhysicsSimulation {
                     if(sharedEdgeExists) {
                         //...and attracted to those it shares an edge with
 
-                        if(Math.abs(d - edgeDistance) > minAttractDistance) {
+                        if(Math.abs(d - edgeLength) > minAttractDistance) {
                             const attractF = other.mass*nodeAttractFConstant/Math.abs(Math.pow(d, attractExp))
-                                * (d > edgeDistance ? -1 : 1);
+                                * (d > edgeLength ? -1 : 1);
     
                             fx += attractF*ndx;
                             fy += attractF*ndy;
@@ -161,5 +167,9 @@ export class PhysicsSimulation {
             node.vy *= 1 - dampen;
             node.update(dt, bounds);
         });
+    }
+
+    setEdgeLength(newEdgeLength: number) {
+        this.params.edgeLength = newEdgeLength;
     }
 }

@@ -1,5 +1,5 @@
 import {Node, Graph} from "./graph.js";
-import {PhysicsNode, PhysicsEdge, PhysicsSimulation} from "./simulation.js";
+import {PhysicsNode, PhysicsEdge, PhysicsSimulation, PhysicsParams} from "./simulation.js";
 
 class RenderedNode extends PhysicsNode {
     x: number;
@@ -135,7 +135,7 @@ export class SVGRenderedGraph {
     simulation: PhysicsSimulation;
     target: SVGSVGElement;
 
-    constructor(data: Graph, target: SVGSVGElement) {
+    constructor(data: Graph, target: SVGSVGElement, params: PhysicsParams) {
         this.target = target;
         target.textContent = "";
 
@@ -166,6 +166,7 @@ export class SVGRenderedGraph {
 
         this.simulation = new PhysicsSimulation(
             renderedNodes,
+            params,
             target
         );
 
