@@ -72,7 +72,7 @@ export class PhysicsSimulation {
         const nodeAttractFConstant = 0.05;
         const edgeLength = this.params.edgeLength;
         const minAttractDistance = 5;
-        const dampen = 0.01;
+        const dampen = 0.02;
         this.nodes.forEach(node => {
             let fx = 0;
             let fy = 0;
