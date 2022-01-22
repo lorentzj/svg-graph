@@ -92,7 +92,7 @@ function defineArrowHeadMarker(size) {
     return markerElement;
 }
 export class SVGRenderedGraph {
-    constructor(data, target) {
+    constructor(data, target, params) {
         this.target = target;
         target.textContent = "";
         const defsElement = document.createElementNS("http://www.w3.org/2000/svg", "defs");
@@ -113,7 +113,7 @@ export class SVGRenderedGraph {
                 console.error(`Missing nodes for edge (${edge.from})-->(${edge.to})`);
             }
         });
-        this.simulation = new PhysicsSimulation(renderedNodes, target);
+        this.simulation = new PhysicsSimulation(renderedNodes, params, target);
         this.target.addEventListener("mousemove", e => {
             const CTM = this.target.getScreenCTM();
             if (CTM !== undefined && CTM !== null) {
